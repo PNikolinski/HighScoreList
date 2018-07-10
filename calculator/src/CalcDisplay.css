@@ -1,0 +1,30 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400');
+
+body{
+    background-color: rgb(41, 41, 41);
+}
+
+table{
+    height: 100%;
+    width: 100%;
+    font-family: 'Roboto', sans-serif;
+    font-size: 48px;
+    color: white;
+    text-align: center;
+}
+.innercell{
+    background-color: #979797;
+}
+.innercell:hover{
+    background-color: #a8a8a8;
+}
+.outercell{
+    background-color: #ff8800;
+}
+.outercell:hover{
+    background-color: #ff9d00;
+}
+.topline{
+    background-color: #bebebe;
+    text-align: right;
+}

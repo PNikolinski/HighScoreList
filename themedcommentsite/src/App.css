@@ -1,0 +1,13 @@
+body{
+    font-size: 32px;
+    width: 75%;
+    padding-left: 12.5%;
+}
+.light{
+    background-color: #fff;
+    color: #000;
+}
+.dark{
+    background-color: #000;
+    color: #fff;
+}

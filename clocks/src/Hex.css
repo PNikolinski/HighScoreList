@@ -1,0 +1,14 @@
+body{
+    color: whitesmoke;
+    height: 100%;
+}
+canvas{
+    margin: 25% 25%;
+}
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+.clock{
+    font-family: 'Roboto', sans-serif;
+    font-size: 32px;
+    padding: 30% 40%;
+    text-shadow: 2px 2px black;
+}

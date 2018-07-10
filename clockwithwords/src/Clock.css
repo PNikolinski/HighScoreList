@@ -1,0 +1,23 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400');
+
+body{
+    background-color: #3a3a3a;
+}
+
+.clockbody{
+    text-transform: uppercase;
+background-color: rgb(70, 70, 70);
+color: rgb(201, 201, 201);
+font-weight: 300;
+font-family: 'Roboto', sans-serif;
+font-size: 24px;
+height: 300px;
+width: 350px;
+margin: 25% 25%;
+}
+.active{
+    font-weight: 400;
+    font-size: 28px;
+    color: whitesmoke;
+    
+}

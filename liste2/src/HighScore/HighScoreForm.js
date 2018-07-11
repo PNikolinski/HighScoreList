@@ -20,12 +20,12 @@ class HighScoreForm extends Component {
     }
 
     resetForm(){
-        document.getElementById("name").focus()
+        
         this.setState({
             name: '',
             score: ''
         })
-        
+        document.getElementById("name").focus()
     }
 
     validateInputs = (event) => {
@@ -40,7 +40,7 @@ class HighScoreForm extends Component {
         } else if (!nameIsValid && !scoreIsValid) {
             alert("Please enter a valid name and score")
         } else {
-            this.newElement(this.state.name, this.state.score)
+            this.props.insertIntoDatabase(this.state.name, this.state.score)
         }
     }
 
@@ -51,20 +51,7 @@ class HighScoreForm extends Component {
     validateName() {
         return (this.state.name.length >= minimumNameLength && this.state.name.length <= maximumNameLength) ? true : false
     }
-    newElement(name, score) {
-        fetch("http://localhost:4000/",{
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify( {
-                user : name,
-                score: score
-            })
-        })
-        
-    }
+    
 
     render() {
         return (

@@ -11,7 +11,7 @@ class HighScoreContainer extends Component {
             user: []
         }
     }
-    componentDidMount() {
+    componentDidMount(){
         this.fetchData()
     }
     //+++++++++++++++++++++++++++++
@@ -24,6 +24,7 @@ class HighScoreContainer extends Component {
             .then(parsedJSON => this.getElements(parsedJSON))
             .catch(err => console.log("Failed to fetch: " + err))
     }
+    //Put user data into state user array
     getElements(elements) {
         for (let i = 0; i < elements.length; i++) {
             this.setState({
@@ -31,6 +32,7 @@ class HighScoreContainer extends Component {
             })
         }
     }
+    //Add User into state user array
     addUser(name, score, id) {
         const tempArray = this.state.user
         tempArray.push({ name: name, score: score, id: id })
@@ -46,7 +48,7 @@ class HighScoreContainer extends Component {
         return tempArray
     }
     //+++++++++++++++++++++++++++++++++++++++
-    //Delete from Database
+    //Delete user from Database
     deleteElement = (id) => {
         fetch("http://localhost:4000/", {
             method: "DELETE",
@@ -61,7 +63,7 @@ class HighScoreContainer extends Component {
         .then(response => {
             if (response.status === 200) {
                 this.setState({
-                    user: (this.delUser(this.state.user.indexOf(id))),
+                    user: (this.delUser(id)),
                 })
                 console.log("Successfully deleted User")
             } else {
@@ -69,9 +71,16 @@ class HighScoreContainer extends Component {
             }
         })
     }
+    //Delete user from state user array
     delUser(index) {
         const tempArray = this.state.user
-        tempArray.splice(index, 1)
+        console.log("Delete id: " + index)
+        for (let i = 0; i < tempArray.length; i++) {
+            if (tempArray[i].id === index) {
+                tempArray.splice(i,1)
+                break;
+            }            
+        }
         return tempArray
     }
 
@@ -94,7 +103,7 @@ class HighScoreContainer extends Component {
             if (response.status === 200) {
                 if(this.state.user.length === 0){
                     this.setState({
-                        user: (this.addUser(name, score *1, 1)),
+                        user: (this.addUser(name, score *1, 0)),
                     })
                 } else {
                     this.setState({
@@ -120,7 +129,8 @@ class HighScoreContainer extends Component {
                     {/*Show complete List under HighScoreHeader*/}
                     <HighScoreBody users={this.state.user} deleteElement={(id) => this.deleteElement(id)} />
                 </table>
-                <HighScoreForm insertIntoDatabase={(newName, newScore) => this.newElement(newName, newScore)}/>
+                {/*Take Inputs and insert it into database*/}
+                <HighScoreForm insertIntoDatabase={(newName, newScore) => this.newElement(newName, newScore)} checkName={this.state.user}/>
             </React.Fragment>
         );
     }

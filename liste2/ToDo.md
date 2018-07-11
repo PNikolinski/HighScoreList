@@ -35,28 +35,28 @@
             - Hello World✓ | Donnerstag
             - Gebe einen random generierten Nutzer aus✓ | Donnerstag
             - Gebe eine vorgegeben Anzahl von random generierten Nutzern aus✓ | Donnerstag
-        - Einfache Put Route 1 / 4 Tag
-            - Einfache Konsolen Ausgabe 
-    - API definieren 1 1/2 Tag
-        + Ausprobieren mit RC
-        - Route
-        - Datenformat
-    - WOCHENENDE
-        - Get Datensatz 1 1 / 2 Tag
-            - JSON Format
-            - JSON to Normal
-            - Server -> API
-        - Ausgabe von Daten 1 / 4 Tag
-            - API -> Client
-        - Set Datensatz 1 / 2 Tag
-            - Normal to JSON
-            - Client -> API -> DB
-        - Delete Datensatz 
-            - Client -> API -> DB
+        - Einfache Put Route 1 / 4 Tag✓
+            - Einfache Konsolen Ausgabe ✓
+    - API definieren 1 1/2 Tag✓
+        + Ausprobieren mit RC✓
+        - Route✓
+        - Datenformat✓
+    - WOCHENENDE✓
+        - Get Datensatz 1 1 / 2 Tag✓
+            - JSON Format✓
+            - JSON to Normal✓
+            - Server -> API✓
+        - Ausgabe von Daten 1 / 4 Tag✓
+            - API -> Client✓
+        - Set Datensatz 1 / 2 Tag✓
+            - Normal to JSON✓
+            - Client -> API -> DB✓
+        - Delete Datensatz ✓
+            - Client -> API -> DB✓
     - SQL Datenbank Backend
-- Client mit API verbinden
-    - Fetch
-    - Ausgaben
+- Client mit API verbinden✓
+    - Fetch✓
+    - Ausgaben✓
 
 
 

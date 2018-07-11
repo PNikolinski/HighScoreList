@@ -14,25 +14,35 @@ class List extends Component {
     constructor() {
         super()
         this.state = {
-            name: [],   
-            score: [],
-            id: []
+            user: [],
         }
     }
     componentDidMount() {
         this.fetchData()
     }
-    deleteElement(id) {
+    deleteElement = (id) => {
         fetch("http://localhost:4000/", {
             method: "DELETE",
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify( {
-                id : id,
+            body: JSON.stringify({
+                id: id,
             })
         })
+            .then(response => {
+                if (response.status === 200) {
+                    this.setState({
+                        user: (this.delUser(this.state.user.indexOf(id))),
+                    })
+                    console.log("Successfully deleted User")
+                } else {
+                    console.log("Error")
+                }
+            })
+
+
     }
     fetchData() {
         fetch("http://localhost:4000/", {
@@ -43,42 +53,43 @@ class List extends Component {
             .catch(err => console.log("Failed to fetch: " + err))
     }
     getElements(elements) {
-        if (elements.length > this.state.name.length) {
-            for (let i = 0; i < elements.length; i++) {
-                this.setState({
-                    name: (this.addName(elements[i].list_user_name)),
-                    score: (this.addScore(elements[i].list_user_score)),
-                    id: (this.addID(elements[i].id))
-                })
-            }
+        for (let i = 0; i < elements.length; i++) {
+            this.setState({
+                user: (this.addUser(elements[i].list_user_name, elements[i].list_user_score, elements[i].id))
+            })
         }
     }
-    addName(name) { 
-            const tempArray = this.state.name
-            tempArray.push(name)
-            return tempArray  
-    }
-    addScore(score) {
-        const tempArray = this.state.score
-        tempArray.push(score)
+    addUser(name, score, id) {
+        const tempArray = this.state.user
+        tempArray.push({ name: name, score: score, id: id })
         return tempArray
     }
-    addID(id) {
-        const tempArray = this.state.id
-        tempArray.push(id)
+    delUser(index) {
+        const tempArray = this.state.user
+        tempArray.splice(index, 1)
         return tempArray
     }
-
     setListElements() {
         const elementArray = []
-        for (let i = 0; i < this.state.name.length; i++) {
-            elementArray.push(<ListElement name={this.state.name[i]} score={this.state.score[i]} id={this.state.id[i]} platz={i + 1} key={i} delElement={(id) => this.deleteElement(id)} />)
+        for (let i = 0; i < this.state.user.length; i++) {
+            elementArray.push(<ListElement name={this.state.user[i].name} score={this.state.user[i].score} id={this.state.user[i].id} platz={i + 1} key={i} delElement={(id) => this.deleteElement(id)} />)
         }
         return elementArray
     }
     render() {
-        //Return array to show all elements 
-        return this.setListElements()
+        return (
+            this.state.user.map((user, index) => (
+                <ListElement
+                    name={user.name}
+                    score={user.score}
+                    id={user.id}
+                    platz={index + 1}
+                    key={index}
+                    delElement={(id) => this.deleteElement(id)}
+                />
+            ))
+        
+        )
     }
 }
 //Body for each row of output

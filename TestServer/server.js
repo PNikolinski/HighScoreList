@@ -61,7 +61,7 @@ app.delete("/", (req, res) => {
     con.query(deleteString, (err, rows) => {
         if (err) {
             console.log("Select ERROR: " + err)
-            res.sendStatus(404)
+            res.sendStatus(500)
         } else {
             console.log("Deleted User from Database")
             res.send("Deleted User, id:" + id)

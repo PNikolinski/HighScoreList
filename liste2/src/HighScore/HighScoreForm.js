@@ -19,13 +19,13 @@ class HighScoreForm extends Component {
         this.setState({ [event.target.name]: event.target.value })
     }
 
-    resetForm() {
+    resetForm(){
+        document.getElementById("name").focus()
         this.setState({
             name: '',
             score: ''
         })
-
-        document.getElementById("name").focus()
+        
     }
 
     validateInputs = (event) => {
@@ -63,6 +63,7 @@ class HighScoreForm extends Component {
                 score: score
             })
         })
+        
     }
 
     render() {

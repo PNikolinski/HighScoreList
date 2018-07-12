@@ -6,7 +6,10 @@ class HighScoreBody extends Component {
         return (
             <React.Fragment>
                 {/*Show all list elements*/}
-                <List users={this.props.users} deleteElement={(id) => this.props.deleteElement(id)}/>
+                <List
+                    users={this.props.users} deleteElement={(id) => this.props.deleteElement(id)}
+                    updateUser={(id) => this.props.updateUser(id)}
+                />
             </React.Fragment>
         );
     }

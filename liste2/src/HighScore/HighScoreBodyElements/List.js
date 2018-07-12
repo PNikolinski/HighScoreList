@@ -19,6 +19,7 @@ class List extends Component {
                      platz={index + 1}
                      key={index}
                      delElement={(id) => this.props.deleteElement(id)}
+                     updateUser={(id) => this.props.updateUser(id)}
                  />
              ))
             

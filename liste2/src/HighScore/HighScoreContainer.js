@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import HighScoreHeader from './HighScoreHeader'
 import HighScoreBody from './HighScoreBody'
 import HighScoreForm from './HighScoreForm'
-
+//import "./css/update.css"
 
 class HighScoreContainer extends Component {
     constructor() {
@@ -11,7 +11,7 @@ class HighScoreContainer extends Component {
             user: []
         }
     }
-    componentDidMount(){
+    componentDidMount() {
         this.fetchData()
     }
     //+++++++++++++++++++++++++++++
@@ -36,15 +36,15 @@ class HighScoreContainer extends Component {
     addUser(name, score, id) {
         const tempArray = this.state.user
         tempArray.push({ name: name, score: score, id: id })
-        tempArray.sort(function(a, b) {
+        tempArray.sort(function (a, b) {
             if (a.score > b.score) {
-              return -1;
+                return -1;
             }
             if (a.score < b.score) {
-              return 1;
+                return 1;
             }
             return 0;
-          });
+        });
         return tempArray
     }
     //+++++++++++++++++++++++++++++++++++++++
@@ -60,16 +60,16 @@ class HighScoreContainer extends Component {
                 id: id,
             })
         })
-        .then(response => {
-            if (response.status === 200) {
-                this.setState({
-                    user: (this.delUser(id)),
-                })
-                console.log("Successfully deleted User")
-            } else {
-                console.log("Error")
-            }
-        })
+            .then(response => {
+                if (response.status === 200) {
+                    this.setState({
+                        user: (this.delUser(id)),
+                    })
+                    console.log("Successfully deleted User")
+                } else {
+                    console.log("Error")
+                }
+            })
     }
     //Delete user from state user array
     delUser(index) {
@@ -77,11 +77,51 @@ class HighScoreContainer extends Component {
         console.log("Delete id: " + index)
         for (let i = 0; i < tempArray.length; i++) {
             if (tempArray[i].id === index) {
-                tempArray.splice(i,1)
+                tempArray.splice(i, 1)
+                break;
+            }
+        }
+        return tempArray
+    }
+    //+++++++++++++++++++
+    //Update user from one state to antoher
+    updateUser(username, userscore) {
+        if(username !== "" && userscore !== ""){
+        fetch("http://localhost:4000/", {
+            method: 'PATCH',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                user: username,
+                score: userscore,
+                id: this.findUserID(username)
+            })
+        })
+            .then(response => {
+                if (response.status === 200) {
+                    this.setState({
+                        user: (this.findUser(username)),
+                    })
+                    console.log("Successfully Updated User")
+                } else {
+                    console.log("Error")
+                }
+            })
+        } else {
+            console.log("Keine Eingaben...")
+        }
+    }
+    findUserID(username){
+        var id = 0
+        for (let i = 0; i < this.state.user.length; i++) {
+            if(username===this.state.user[i].name){
+                id = this.state.user[i].id
                 break;
             }            
         }
-        return tempArray
+        return id
     }
 
 
@@ -99,38 +139,47 @@ class HighScoreContainer extends Component {
                 score: score
             })
         })
-        .then(response => {
-            if (response.status === 200) {
-                if(this.state.user.length === 0){
-                    this.setState({
-                        user: (this.addUser(name, score *1, 0)),
-                    })
+            .then(response => {
+                if (response.status === 200) {
+                    if (this.state.user.length === 0) {
+                        this.setState({
+                            user: (this.addUser(name, score * 1, 0)),
+                        })
+                    } else {
+                        this.setState({
+                            user: (this.addUser(name, score * 1, this.state.user[this.state.user.length - 1].id + 1)),
+                        })
+
+                    }
+
+                    console.log("Successfully inserted User")
                 } else {
-                    this.setState({
-                        user: (this.addUser(name, score*1, this.state.user[this.state.user.length-1].id +1)),
-                    })
-                   
+                    console.log("Error")
                 }
-                
-                console.log("Successfully inserted User")
-            } else {
-                console.log("Error")
-            }
-        })
+            })
     }
 
     render() {
         return (
             <React.Fragment>
                 {/*Show List in table*/}
-                <table border="1" style={{width: 75 +"%", alignContent: "center"}}>
+                <table border="1" style={{ width: 75 + "%", alignContent: "center" }}>
                     {/*Show Header in first row*/}
                     <HighScoreHeader />
                     {/*Show complete List under HighScoreHeader*/}
-                    <HighScoreBody users={this.state.user} deleteElement={(id) => this.deleteElement(id)} />
+                    <HighScoreBody
+                        users={this.state.user}
+                        deleteElement={(id) => this.deleteElement(id)}
+                        updateUser={(id) => this.updateUser(id)}
+                    />
                 </table>
                 {/*Take Inputs and insert it into database*/}
-                <HighScoreForm insertIntoDatabase={(newName, newScore) => this.newElement(newName, newScore)} checkName={this.state.user}/>
+
+                <HighScoreForm
+                    insertIntoDatabase={(newName, newScore) => this.newElement(newName, newScore)}
+                    checkName={this.state.user}
+                    updateUser={(username, userscore) => this.updateUser(username, userscore)}
+                />
             </React.Fragment>
         );
     }

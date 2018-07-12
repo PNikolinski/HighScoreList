@@ -68,6 +68,22 @@ app.delete("/", (req, res) => {
         }
     })
 })
+app.patch("/", (req, res) => {
+    console.log("Updating user...")
+
+    var deleteString = "UPDATE List SET list_user_score='" + req.body.score + "' WHERE id='" + req.body.id +"'"
+    console.log(deleteString)
+    const con = getConnection()
+    con.query(deleteString, (err, rows) => {
+        if (err) {
+            console.log("Select ERROR: " + err)
+            res.sendStatus(500)
+        } else {
+            console.log("Updated User from Database")
+            res.send("Updated User: " + req.body.user)
+        }
+    })
+})
 
 var server = app.listen(4000, function () {
     console.log("Server läuft auf Port: ", server.address().port)

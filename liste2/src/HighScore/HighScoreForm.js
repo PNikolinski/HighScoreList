@@ -71,34 +71,37 @@ class HighScoreForm extends Component {
         return (
             <React.Fragment>
                 {/*Complete form to get new Elements*/}
-                <form onSubmit={this.resetForm}>
-                    <table>
-                        <tbody>
-                            <tr>
-                                <td colSpan="3">
-                                    <label>
-                                        {/*Input Field for name*/}
-                                        Name <input type="text" name="name" value={this.state.name} onChange={this.fillInForm} id="name" />
-                                    </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colSpan="3">
-                                    <label>
-                                        {/*Input Field for score*/}
-                                        Score <input type="number" name="score" value={this.state.score} onChange={this.fillInForm} id="score" />
-                                    </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    {/*Submit button for submitting form*/}
-                                    <button onClick={this.validateInputs}>Einfügen</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </form>
+                <div className="container">
+                    <form onSubmit={this.resetForm}>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td colSpan="3">
+                                        <label>
+                                            {/*Input Field for name*/}
+                                            Name <input type="text" name="name" value={this.state.name} onChange={this.fillInForm} id="name" required />
+                                        </label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colSpan="3">
+                                        <label>
+                                            {/*Input Field for score*/}
+                                            Score <input type="number" name="score" value={this.state.score} onChange={this.fillInForm} id="score" required />
+                                        </label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        {/*Submit button for submitting form*/}
+                                        <button onClick={this.validateInputs} className="btn green">Einfügen</button>
+                                        <button onClick={() => this.props.updateUser(this.state.name, this.state.score)} className="btn blue">Update</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </form>
+                </div>
             </React.Fragment>
         );
     }

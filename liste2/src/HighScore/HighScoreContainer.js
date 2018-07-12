@@ -123,7 +123,7 @@ class HighScoreContainer extends Component {
         return (
             <React.Fragment>
                 {/*Show List in table*/}
-                <table border="1">
+                <table border="1" style={{width: 75 +"%", alignContent: "center"}}>
                     {/*Show Header in first row*/}
                     <HighScoreHeader />
                     {/*Show complete List under HighScoreHeader*/}

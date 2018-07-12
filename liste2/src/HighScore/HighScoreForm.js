@@ -15,14 +15,14 @@ class HighScoreForm extends Component {
         this.fillInForm = this.fillInForm.bind(this);
         this.resetForm = this.resetForm.bind(this);
     }
-//Set state when an event is happening
-//Change in name or score field
+    //Set state when an event is happening
+    //Change in name or score field
     fillInForm(event) {
         this.setState({ [event.target.name]: event.target.value })
     }
-//If the form ist submitted, clear fields and set focus onto name field
+    //If the form ist submitted, clear fields and set focus onto name field
     resetForm = () => {
-        
+
         this.setState({
             name: '',
             score: ''
@@ -36,12 +36,14 @@ class HighScoreForm extends Component {
         var nameIsValid = this.validateNameLength()
         var nameIsInDatabase = this.validateIsNameInDatabase()
 
-        if (nameIsValid && !scoreIsValid && nameIsInDatabase) {
+        if (nameIsValid && !scoreIsValid) {
             alert("Enter a score greater than 0")
-        } else if (!nameIsValid && scoreIsValid && nameIsInDatabase) {
-            alert("Enter a name which is between 5 and 15 characters long, don't enter a name that is already in the list")
-        } else if (!nameIsValid && !scoreIsValid && nameIsInDatabase) {
+        } else if (!nameIsValid && scoreIsValid) {
+            alert("Enter a name which is between 5 and 15 characters long")
+        } else if (!nameIsValid && !scoreIsValid) {
             alert("Please enter a valid name and score")
+        } else if (!nameIsInDatabase) {
+            alert("Do not enter a name that is already in the list")
         } else {
             this.props.insertIntoDatabase(this.state.name, this.state.score)
         }
@@ -54,18 +56,17 @@ class HighScoreForm extends Component {
     validateNameLength() {
         return (this.state.name.length >= minimumNameLength && this.state.name.length <= maximumNameLength) ? true : false
     }
-    validateIsNameInDatabase(){
-        var statement = false
+    validateIsNameInDatabase() {
+        var statement = true
         for (let i = 0; i < this.names.length; i++) {
-            if(this.names[i].name === this.state.name){
+            if (this.names[i].name === this.state.name) {
                 console.log("In Database" + i)
-                statement = true
+                statement = false
                 break;
             }
         }
         return statement
     }
-
     render() {
         return (
             <React.Fragment>

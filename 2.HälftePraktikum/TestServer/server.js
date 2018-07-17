@@ -61,7 +61,7 @@ app.post("/games", (req, res) => {
     if (gameName === "") {
         res.status(400).send("Please enter a valid game name")
     } else {
-        const updateGame = "INSERT INTO ListGameData (gameID, gameName) VALUES ('NULL0','" + gameName + "')"
+        const updateGame = "INSERT INTO ListGameData (gameID, gameName) VALUES ('NULL','" + gameName + "')"
         con.query(updateGame, (err, row) => {
             if (err) {
                 res.status(409).send("Game already in database")
@@ -71,14 +71,6 @@ app.post("/games", (req, res) => {
             }
         })
     }
-})
-
-app.get("/user", (req, res) => {
-    const string = "SELECT * FROM UserGameData"
-    con.query(string, (err, row) => {
-        console.log("Testing users")
-        res.json(row)
-    })
 })
 
 

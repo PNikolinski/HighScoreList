@@ -34,7 +34,7 @@
         - Response: 200: OK✓
                     400: Bad Request (e.g. GameName is empty) ✓
                     409: GameID  already exists ✓
-    // Aktualisiere einen Score eines Spielers eines Spieles
+    // Aktualisiere einen Spielstand eines Spielers eines Spieles
     - PATCH ../games/gameID/playerID
         - Request: playerscore
         - Response: 200, 404, 409

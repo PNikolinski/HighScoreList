@@ -97,25 +97,56 @@ app.post("/games", (req, res) => {
         })
     }
 })
+// Enter a score for a new game
+app.post("/games/:gameID/:playerID", (req, res) => {
+    const gameID = req.params.gameID
+    const playerID = req.params.playerID
+    const userScore = req.body.score
+    if (isNaN(gameID) || gameID === "" || isNaN(playerID) || playerID === "" || isNaN(userScore) ||  userScore === "") {
+        res.status(400).send("Please select a game or player out of our database!")
+    } else {
+        /*
+            query(Select with player- and gameID) to check if there is already an entry
+            if yes then break
+            else Insert new value
+        */
+       const selectEverything = "SELECT * FROM userGameData WHERE gameID = ? AND playerID = ?"
+       con.query(selectEverything, [gameID, playerID],(err, rows) => {
+           if(rows.length===2){
+            res.status(409).send("There is already a score for that user!")
+           } else {
+            const insertNewScore = "INSERT INTO userGameData (id, gameID, playerID, userScore) VALUES(Null,'?','?','?')"
+            con.query(insertNewScore, [gameID, playerID, userScore], (errUpdate) => {
+                if(errUpdate){
+                    res.status(500).send("Somebody stood on the cable, please try again")
+                } else {
+                    res.send(console.log("Successfully inserted new score :)"))
+                }
+            })
+           }
+           
+       })
+    }
+})
 // Update someones score
 app.post("/games/:gameID/:playerID", (req, res) => {
     const gameID = req.params.gameID
     const playerID = req.params.playerID
     const userScore = req.body.score
-    console.log(gameID + " " + playerID + " " + userScore)
     if (isNaN(gameID) || gameID === "" || isNaN(playerID) || playerID === "" || isNaN(userScore) ||  userScore === "") {
-        res.status(500).send("Please select a game or player out of our database!")
+        res.status(400).send("Please select a game or player out of our database!")
     } else {
         const updateUserScore = "UPDATE userGameData SET userScore = ? WHERE playerID = ? AND gameID = ?"
         con.query(updateUserScore, [userScore, playerID, gameID], (updateErr) => {
             if (updateErr) {
-                res.status(500).send("Sorry, someone in the background made a mistake, please re-enter your informations!")
+                res.status(409).send("Sorry, someone in the background made a mistake, please re-enter your informations!")
             } else {
                 res.status(200).send("Successfully updated your userscore")
             }
         })
     }
 })
+
 
 
 

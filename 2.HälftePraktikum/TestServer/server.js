@@ -19,6 +19,7 @@ function getConnection() {
 app.use(bodyparser.json())
 app.use(bodyparser.urlencoded({ extended: true }))
 //Permission: Who can connect to API/Database
+// Currently everyone because of the *
 app.use(cors({
     origin: "*",
     credentials: true
@@ -30,7 +31,7 @@ app.get("/games", (req, res) => {
     const getGames = "SELECT * FROM ListGameData"
     con.query(getGames, (err, rows) => {
         console.log(rows)
-        if (err ||  rows.length === 0) {
+        if (err || rows.length < 1) {
             console.log("No Games in Database: " + err)
             res.status(404).send("Sorry no games in here :(")
         } else {
@@ -42,26 +43,51 @@ app.get("/games", (req, res) => {
 // Getting specific game from database table ListGameData
 app.get("/games/:gameID", (req, res) => {
     const gameID = req.params.gameID
-    const getGame = "SELECT * FROM UserGameData WHERE gameID= '" + gameID + "'"
-    con.query(getGame, (err, row) => {
-        console.log(row)
-        if (err || row.length === 0) {
-            console.log("Specific Game is not in Database!")
-            res.status(404).send("Sorry, your required game is not here :(")
+    const getGameDescr = "SELECT * FROM ListGameData WHERE gameID = ?"
+    const getGame = "SELECT * FROM userGameData WHERE gameID = ?"
+    const getPlayer = "SELECT * FROM ListUserData"
+    var temp = []
+    // Search if the game is in the database
+    con.query(getGameDescr, gameID, (errGameDescr, gameDescr) =>{
+        if (errGameDescr || gameDescr.length < 1) {
+            res.status(404).send("Sorry, but it seems like that your required game is not here :(")
         } else {
-            console.log("Getting specific game from Database ...")
-            res.json(row)
+            temp[0] = { gameName: gameDescr[0].gameName, gameDescr: gameDescr[0].gameDescr }
+            // Search if someone is linked to specific game
+            con.query(getGame, gameID, (errGame, gameInfoScore) => {
+                console.log(errGame + " : " + gameInfoScore)
+                if (errGame || gameInfoScore.length < 1) {
+                    res.status(404).send("Sorry, but it seems like nobody has played this game yet :(")
+                } else {
+                    // Search if someone has a score for that game
+                    con.query(getPlayer, (errPlayer, gamePlayerInfo) => {
+                        if (errPlayer || gamePlayerInfo.length < 1) {
+                            res.send(404).send("Sorry, but it seems like nobody has a score yet :(")
+                        } else {
+                            for (let i = 0; i < gameInfoScore.length; i++) {
+                                temp[i + 1] = { playerName: gamePlayerInfo[i].userName, playerScore: gameInfoScore[i].userScore }
+                            }
+                            res.send(temp)
+                        }
+                    })
+                }
 
+            })
         }
+
     })
+
+
+
 })
 // Post new Game into Database
 app.post("/games", (req, res) => {
     const gameName = req.body.gameName
-    if (gameName === "") {
+    const gameDesc = req.body.gameDesc
+    if (gameName === "" && gameDesc === "") {
         res.status(400).send("Please enter a valid game name")
     } else {
-        const updateGame = "INSERT INTO ListGameData (gameID, gameName) VALUES ('NULL','" + gameName + "')"
+        const updateGame = "INSERT INTO ListGameData (gameID, gameName, gameDescr) VALUES ('NULL','" + gameName + "', '" + gameDesc + "')"
         con.query(updateGame, (err, row) => {
             if (err) {
                 res.status(409).send("Game already in database")

@@ -48,14 +48,13 @@ app.get("/games/:gameID", (req, res) => {
     const getPlayer = "SELECT * FROM ListUserData"
     var temp = []
     // Search if the game is in the database
-    con.query(getGameDescr, gameID, (errGameDescr, gameDescr) =>{
+    con.query(getGameDescr, gameID, (errGameDescr, gameDescr) => {
         if (errGameDescr || gameDescr.length < 1) {
             res.status(404).send("Sorry, but it seems like that your required game is not here :(")
         } else {
             temp[0] = { gameName: gameDescr[0].gameName, gameDescr: gameDescr[0].gameDescr }
             // Search if someone is linked to specific game
             con.query(getGame, gameID, (errGame, gameInfoScore) => {
-                console.log(errGame + " : " + gameInfoScore)
                 if (errGame || gameInfoScore.length < 1) {
                     res.status(404).send("Sorry, but it seems like nobody has played this game yet :(")
                 } else {
@@ -98,7 +97,25 @@ app.post("/games", (req, res) => {
         })
     }
 })
-
+// Update someones score
+app.post("/games/:gameID/:playerID", (req, res) => {
+    const gameID = req.params.gameID
+    const playerID = req.params.playerID
+    const userScore = req.body.score
+    console.log(gameID + " " + playerID + " " + userScore)
+    if (isNaN(gameID) || gameID === "" || isNaN(playerID) || playerID === "" || isNaN(userScore) ||  userScore === "") {
+        res.status(500).send("Please select a game or player out of our database!")
+    } else {
+        const updateUserScore = "UPDATE userGameData SET userScore = ? WHERE playerID = ? AND gameID = ?"
+        con.query(updateUserScore, [userScore, playerID, gameID], (updateErr) => {
+            if (updateErr) {
+                res.status(500).send("Sorry, someone in the background made a mistake, please re-enter your informations!")
+            } else {
+                res.status(200).send("Successfully updated your userscore")
+            }
+        })
+    }
+})
 
 
 

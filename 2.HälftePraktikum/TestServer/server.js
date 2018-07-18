@@ -112,7 +112,7 @@ app.post("/games/:gameID/:playerID", (req, res) => {
         */
        const selectEverything = "SELECT * FROM userGameData WHERE gameID = ? AND playerID = ?"
        con.query(selectEverything, [gameID, playerID],(err, rows) => {
-           if(rows.length===2){
+           if(rows.length===1){
             res.status(409).send("There is already a score for that user!")
            } else {
             const insertNewScore = "INSERT INTO userGameData (id, gameID, playerID, userScore) VALUES(Null,'?','?','?')"
@@ -146,8 +146,39 @@ app.post("/games/:gameID/:playerID", (req, res) => {
         })
     }
 })
-
-
+//Delete a game
+app.delete("/games/:gameID", (req, res) => {
+    const gameID = req.params.gameID
+    if (isNaN(gameID) || gameID === "") {
+        res.status(409).send("Please enter a game, that is in the database")
+    } else {
+        const deleteGame = "DELETE FROM ListGameData WHERE gameID = ?"
+        con.query(deleteGame, gameID, (err) => {
+            if(err){
+                res.send(500).send("Delete a game that is in our database")
+            } else {
+                res.send("Successfully deleted game")
+            }
+        })
+    }
+})
+// Delete a user
+app.delete("/user/:playerID", (req, res) => {
+    console.log("Test")
+    const playerID = req.params.playerID
+    if (isNaN(playerID) || playerID === "") {
+        res.status(409).send("Please enter an user, that is in the database")
+    } else {
+        const deleteUser = "DELETE FROM ListUserData WHERE playerID = ?"
+        con.query(deleteUser, playerID, (err) => {
+            if(err){
+                res.send(500).send("Delete a user that is in our database")
+            } else {
+                res.send("Successfully deleted user")
+            }
+        })
+    }
+})
 
 
 

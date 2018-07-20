@@ -4,6 +4,8 @@ var app = express();
 var mysql = require("mysql")
 const cors = require('cors');
 const con = getConnection()
+var tempArray = []
+
 
 function getConnection() {
     return mysql.createConnection({
@@ -102,7 +104,7 @@ app.post("/games/:gameID/:playerID", (req, res) => {
     const gameID = req.params.gameID
     const playerID = req.params.playerID
     const userScore = req.body.score
-    if (isNaN(gameID) || gameID === "" || isNaN(playerID) || playerID === "" || isNaN(userScore) ||  userScore === "") {
+    if (isNaN(gameID) || isNaN(playerID) || isNaN(userScore)) {
         res.status(400).send("Please select a game or player out of our database!")
     } else {
         /*
@@ -110,22 +112,22 @@ app.post("/games/:gameID/:playerID", (req, res) => {
             if yes then break
             else Insert new value
         */
-       const selectEverything = "SELECT * FROM userGameData WHERE gameID = ? AND playerID = ?"
-       con.query(selectEverything, [gameID, playerID],(err, rows) => {
-           if(rows.length===1){
-            res.status(409).send("There is already a score for that user!")
-           } else {
-            const insertNewScore = "INSERT INTO userGameData (id, gameID, playerID, userScore) VALUES(Null,'?','?','?')"
-            con.query(insertNewScore, [gameID, playerID, userScore], (errUpdate) => {
-                if(errUpdate){
-                    res.status(500).send("Somebody stood on the cable, please try again")
-                } else {
-                    res.send(console.log("Successfully inserted new score :)"))
-                }
-            })
-           }
-           
-       })
+        const selectEverything = "SELECT * FROM userGameData WHERE gameID = ? AND playerID = ?"
+        con.query(selectEverything, [gameID, playerID], (err, rows) => {
+            if (rows.length === 1) {
+                res.status(409).send("There is already a score for that user!")
+            } else {
+                const insertNewScore = "INSERT INTO userGameData (id, gameID, playerID, userScore) VALUES(Null,'?','?','?')"
+                con.query(insertNewScore, [gameID, playerID, userScore], (errUpdate) => {
+                    if (errUpdate) {
+                        res.status(500).send("Somebody stood on the cable, please try again")
+                    } else {
+                        res.send(console.log("Successfully inserted new score :)"))
+                    }
+                })
+            }
+
+        })
     }
 })
 // Update someones score
@@ -133,7 +135,7 @@ app.post("/games/:gameID/:playerID", (req, res) => {
     const gameID = req.params.gameID
     const playerID = req.params.playerID
     const userScore = req.body.score
-    if (isNaN(gameID) || gameID === "" || isNaN(playerID) || playerID === "" || isNaN(userScore) ||  userScore === "") {
+    if (isNaN(gameID) || isNaN(playerID) || isNaN(userScore)) {
         res.status(400).send("Please select a game or player out of our database!")
     } else {
         const updateUserScore = "UPDATE userGameData SET userScore = ? WHERE playerID = ? AND gameID = ?"
@@ -149,12 +151,12 @@ app.post("/games/:gameID/:playerID", (req, res) => {
 //Delete a game
 app.delete("/games/:gameID", (req, res) => {
     const gameID = req.params.gameID
-    if (isNaN(gameID) || gameID === "") {
+    if (isNaN(gameID)) {
         res.status(409).send("Please enter a game, that is in the database")
     } else {
         const deleteGame = "DELETE FROM ListGameData WHERE gameID = ?"
         con.query(deleteGame, gameID, (err) => {
-            if(err){
+            if (err) {
                 res.send(500).send("Delete a game that is in our database")
             } else {
                 res.send("Successfully deleted game")
@@ -166,25 +168,19 @@ app.delete("/games/:gameID", (req, res) => {
 app.delete("/user/:playerID", (req, res) => {
     console.log("Test")
     const playerID = req.params.playerID
-    if (isNaN(playerID) || playerID === "") {
+    if (isNaN(playerID)) {
         res.status(409).send("Please enter an user, that is in the database")
     } else {
         const deleteUser = "DELETE FROM ListUserData WHERE playerID = ?"
         con.query(deleteUser, playerID, (err) => {
-            if(err){
-                res.send(500).send("Delete a user that is in our database")
+            if (err) {
+                res.send(500).send("Please delete a user that is in our database")
             } else {
                 res.send("Successfully deleted user")
             }
         })
     }
 })
-
-
-
-
-
-
 
 //+++++++++++++++++++++++++++++++++
 

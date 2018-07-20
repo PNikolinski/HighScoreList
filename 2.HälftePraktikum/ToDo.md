@@ -35,24 +35,28 @@
                     400: Bad Request (e.g. GameName is empty) ✓
                     409: GameID  already exists ✓
     // Aktualisiere einen Spielstand eines Spielers eines Spieles
-    - PATCH ../games/gameID/playerID
-        - Request: playerscore
-        - Response: 200, 404, 409
-    // Gebe einen neuen Score für ein bestimmtes Spiel für einen bestimmten Spieler    ein
-    - PUT ../games/gameID/playerID
-        - Request: playerscore
-        - Response: 200, 404
+    - ✓PATCH ../games/gameID/playerID
+        - Request: playerscore✓
+        - Response: 200✓, 404, 409
+    // Gebe einen neuen Score für ein bestimmtes Spiel für einen bestimmten Spieler ein
+    - ✓PUT ../games/gameID/playerID
+        - Request: playerscore✓
+        - Response: 200, 404✓
     // Lösche bestimmtes Spiel
-    - DELETE /games/gameID
+    - ✓DELETE /games/gameID
         - Request: void
-        - Response: 200: OK
-                    404: ID not found
+        - Response: 200: OK✓
+                    404: ID not found✓
     // Lösche einen bestimmten Nutzer aus der Datenbank
-    - DELETE /game/gameID/playerID
-        - Request: void
-        - Response: 200: OK
-                    404: Player or GameID not found
-
+    - ✓DELETE /game/gameID/playerID
+        - Request: void✓
+        - Response: 200: OK✓
+                    404: Player or GameID not found✓
+    // Liste alle Spiele eines Spielers samt seines Scores auf
+    - GET /game/:userID
+        - Request: gameID
+        - Response: 200, 400, 404, 
+        
 - Client 1 1/2 Tage
     - UI / UX Design => Ask Pia nicely
      - Two lists, how to arragne them?

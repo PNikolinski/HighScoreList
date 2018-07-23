@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import Home from './home'
-import Games from './AllPlayers/games'
-import GamesForm from './Player/form'
+import Games from './AllGames/games'
+import Game from './Games/SelectOneGame'
 
 class Body extends Component {
     state = {}
@@ -12,7 +12,7 @@ class Body extends Component {
                 <Switch>
                     <Route exact path='/' component={Home}/>
                     <Route path='/games' component={Games}/>
-                    <Route path='/gameform' component={GamesForm}/>
+                    <Route path='/game' component={Game}/>
                 </Switch>
             </main>
         );

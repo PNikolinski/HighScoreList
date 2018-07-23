@@ -8,7 +8,7 @@ class NavElements extends Component {
                 <ul>
                     <div>
                         <li><Link to="/games">ALL GAMES</Link></li>
-                        <li><Link to="/gameform">SPECIFIC GAME</Link></li>
+                        <li><Link to="/game">SPECIFIC GAME</Link></li>
                         <li><Link to="/addgame">ADD GAME</Link></li>
                         <li><Link to="/delgame">DELETE GAME</Link></li>
                     </div>

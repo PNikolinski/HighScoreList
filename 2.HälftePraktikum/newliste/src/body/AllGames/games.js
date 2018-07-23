@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import PlayerHead from "./PlayerHead";
-import Players from "./Players";
+import PlayerHead from "./GamesHead";
+import Players from "./AllGames";
 
 class Games extends Component {
     render() {

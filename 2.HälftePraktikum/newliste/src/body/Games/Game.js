@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
 
 class Game extends Component {
-componentDidMount(){
-    this.fillState()
-}
-fillState(){
-    console.log(this.props.gameElement)
-}
+    comingSoon() {
+        alert("Coming Soon™")
+    }
     render() {
         return (
             <React.Fragment>
@@ -34,7 +31,7 @@ fillState(){
                                     <button onClick={() => this.props.changeGame()}>Search new Game</button>
                                 </td>
                                 <td>
-                                    <button onClick={() => this.fillState()}>Show Players</button>
+                                    <button onClick={() => this.comingSoon()}>Show Players</button>
                                 </td>
                             </tr>
                         </thead>

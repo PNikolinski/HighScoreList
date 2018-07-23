@@ -52,6 +52,7 @@ app.get("/games/:gameID", (req, res) => {
     // Search if the game is in the database
     con.query(getGameDescr, gameID, (errGameDescr, gameDescr) => {
         if (errGameDescr || gameDescr.length < 1) {
+            console.log("Game Description Error: " + errGameDescr)
             res.status(404).send("Sorry, but it seems like that your required game is not here :(")
         } else {
             temp[0] = { gameName: gameDescr[0].gameName, gameDescr: gameDescr[0].gameDescr }
@@ -82,22 +83,25 @@ app.get("/games/:gameID", (req, res) => {
 
 })
 // Post new Game into Database
-app.post("/games", (req, res) => {
+app.post("/game", (req, res) => {
     const gameName = req.body.gameName
     const gameDesc = req.body.gameDesc
-    if (gameName === "" && gameDesc === "") {
+    console.log(gameName + "1")
+    if (gameName === "" || gameDesc === "") {
         res.status(400).send("Please enter a valid game name")
     } else {
-        const updateGame = "INSERT INTO ListGameData (gameID, gameName, gameDescr) VALUES ('NULL','" + gameName + "', '" + gameDesc + "')"
+        const updateGame = "INSERT INTO ListGameData (gameName, gameDescr) VALUES ('"+gameName+"', '"+gameDesc+"')"
         con.query(updateGame, (err, row) => {
             if (err) {
+                console.log(err)
                 res.status(409).send("Game already in database")
             } else {
+                console.log(gameName +'2' )
                 console.log("Inserting new Game, please wait...")
                 res.status(200).send("Successfully inserted new Game")
             }
         })
-    }
+    }  
 })
 // Enter a score for a new game
 app.post("/games/:gameID/:playerID", (req, res) => {
@@ -164,6 +168,21 @@ app.delete("/games/:gameID", (req, res) => {
         })
     }
 })
+//++++++++++++++++++++++++++++++
+// Get all users
+app.get("/players", (req, res) => {
+    const getPlayers = "SELECT * FROM ListUserData"
+    con.query(getPlayers, (err, rows) => {
+        console.log(rows)
+        if (err || rows.length < 1) {
+            console.log("No Players in Database: " + err)
+            res.status(404).send("Sorry no Players in here :(")
+        } else {
+            console.log("Getting Players from list...")
+            res.json(rows)
+        }
+    })
+});
 // Delete a user
 app.delete("/user/:playerID", (req, res) => {
     console.log("Test")

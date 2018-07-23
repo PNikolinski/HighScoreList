@@ -15,7 +15,7 @@ class NavElements extends Component {
                     <br />
                     <div>
                         <li><Link to="/players">ALL PLAYERS</Link></li>
-                        <li><Link to="/playerform">SPECIFIC PLAYER</Link></li>
+                        <li><Link to="/player">SPECIFIC PLAYER</Link></li>
                         <li><Link to="/addplayer">ADD PLAYER</Link></li>
                         <li><Link to="/delplayer">DELETE PLAYER</Link></li>
                     </div>

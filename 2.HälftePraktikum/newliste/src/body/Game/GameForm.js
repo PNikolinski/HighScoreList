@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Grid, Table, Col } from 'react-bootstrap';
 
 class GameForm extends Component {
     constructor(props) {
@@ -41,8 +42,12 @@ class GameForm extends Component {
     }
     render() {
         return (
+            <Grid>
+                <Col  className="col-xs-3 col-sm-3 col-md-3 col-lg-3 ">
+                </Col>
+                <Col  className="col-xs-3 col-sm-3 col-md-3 col-lg-3 ">
             <form action="" method="post">
-                <table>
+                <Table>
                     <thead>
                         <tr>
                             <td colSpan="2">
@@ -63,8 +68,12 @@ class GameForm extends Component {
                             <td><button onClick={() => this.props.selectGame(this.state.selectedItem)}>Submit</button></td>
                         </tr>
                     </tbody>
-                </table>
+                </Table>
             </form>
+                </Col>
+                <Col  className="col-xs-3 col-sm-3 col-md-3 col-lg-3 ">
+                </Col>
+            </Grid>
         );
     }
 }

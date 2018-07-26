@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
 import PlayerHead from "./GamesHead";
 import Players from "./AllGames";
+import { Grid, Table } from "react-bootstrap"
 
 class Games extends Component {
     render() {
         return (
-            <table>
-                <PlayerHead />
-                <Players />
-            </table>
+            <Grid>
+                <Table bordered hovered>
+                    <PlayerHead />
+                    <Players />
+                </Table>
+            </Grid>
         );
     }
 }

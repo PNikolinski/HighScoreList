@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
+import { Grid, Table, Col } from "react-bootstrap";
 
 class AddGame extends Component {
-    constructor(){
+    constructor() {
         super()
-        this.state ={
+        this.state = {
             gameName: '',
             gameDescr: ''
         }
@@ -13,12 +14,12 @@ class AddGame extends Component {
     }
 
 
-    handleFormChange(event){
+    handleFormChange(event) {
         this.setState({
-            [event.target.name]:event.target.value
+            [event.target.name]: event.target.value
         })
     }
-    submitForm(){
+    submitForm() {
         fetch('http://localhost:4000/game', {
             method: 'POST',
             headers: {
@@ -30,10 +31,10 @@ class AddGame extends Component {
                 gameDesc: this.state.gameDescr
             })
         })
-        .then(this.resetForm())
-        .catch(err => console.log(err))
+            .then(this.resetForm())
+            .catch(err => console.log(err))
     }
-    resetForm(){
+    resetForm() {
         this.setState({
             gameName: '',
             gameDescr: ''
@@ -41,43 +42,49 @@ class AddGame extends Component {
     }
     render() {
         return (
-            <React.Fragment>
-                <form action='#'>
-                    <table>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    Name
+            <Grid>
+                <Col  className="col-xs-3 col-sm-3 col-md-3 col-lg-3 ">
+                </Col>
+                <Col  className="col-xs-3 col-sm-3 col-md-3 col-lg-3 ">
+                    <form action='/games'>
+                        <Table>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        Name
                                 </td>
-                                <td>
-                                    <input type="text" name="gameName" placeholder="Please enter the name of the game"  value={this.state.gameName} onChange={this.handleFormChange}/>
+                                    <td>
+                                        <input type="text" name="gameName" placeholder="Please enter the name of the game" value={this.state.gameName} onChange={this.handleFormChange} />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Description
                                 </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    Description
-                                </td>
-                                <td>
-                                    <textarea 
-                                     name="gameDescr" 
-                                     placeholder="Please enter some information about the game"
-                                     value={this.state.gameDescr} 
-                                     onChange={this.handleFormChange}
-                                     />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <button onClick={() => this.resetForm}>Reset</button>
-                                </td>
-                                <td>
-                                    <button onClick={() => this.submitForm()}>Submit</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </form>
-            </React.Fragment>
+                                    <td>
+                                        <textarea
+                                            name="gameDescr"
+                                            placeholder="Please enter some information about the game"
+                                            value={this.state.gameDescr}
+                                            onChange={this.handleFormChange}
+                                        />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <button onClick={() => this.resetForm}>Reset</button>
+                                    </td>
+                                    <td>
+                                        <button onClick={() => this.submitForm()}>Submit</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </Table>
+                    </form>
+                </Col>
+                <Col  className="col-xs-3 col-sm-3 col-md-3 col-lg-3 ">
+                </Col>
+            </Grid>
         );
     }
 }

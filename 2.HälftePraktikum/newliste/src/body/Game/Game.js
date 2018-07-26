@@ -1,52 +1,55 @@
 import React, { Component } from 'react';
-import { Grid, Col, Table } from "react-bootstrap"
-class Player extends Component {
+import { Grid, Row, Col } from "react-bootstrap";
+
+class Game extends Component {
     comingSoon() {
         alert("Coming Soon™")
     }
     render() {
         return (
             <Grid>
-                <Col className="col-xs-4 col-sm-4 col-md-4 col-lg-4 ">
-                </Col>
-                <Col className="col-xs-4 col-sm-4 col-md-4 col-lg-4 ">
+                <Row>
+                    <Col  className="col-xs-3 col-sm-3 col-md-3 col-lg-3 ">
+                    </Col>
+                    <Col  className="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                     <form>
-                        <Table bordered>
+                        <table border='1'>
                             <thead>
-                                <tr>
-                                    <td>
-                                        ID
-                            </td>
-                                    <td>
-                                        {this.props.playerID}
-                                    </td>
-                                </tr>
                                 <tr>
                                     <td>
                                         Name
                             </td>
                                     <td>
-                                        {this.props.playerName}
+                                        {this.props.gameName}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        <button onClick={() => this.props.changePlayer()}>Search new Player</button>
+                                        Beschreibung
+                            </td>
+                                    <td>
+                                        {this.props.gameDescr}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <button onClick={() => this.props.changeGame()}>Search new Game</button>
                                     </td>
                                     <td>
-                                        <button onClick={() => this.comingSoon()}>Show Games</button>
+                                        <button onClick={() => this.comingSoon()}>Show Players</button>
                                     </td>
                                 </tr>
                             </thead>
-                        </Table>
+                        </table>
                     </form>
-                </Col>
-                <Col className="col-xs-4 col-sm-4 col-md-4 col-lg-4 ">
-                </Col>
+                    </Col>
+                    <Col  className="col-xs-3 col-sm-3 col-md-3 col-lg-3 ">
+                    </Col>
+                </Row>
 
             </Grid>
         );
     }
 }
 
-export default Player;
+export default Game;

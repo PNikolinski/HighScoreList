@@ -170,7 +170,7 @@ app.delete("/games/:gameID", (req, res) => {
 })
 //++++++++++++++++++++++++++++++
 // Get all users
-app.get("/players", (req, res) => {
+app.get("/users", (req, res) => {
     const getPlayers = "SELECT * FROM ListUserData"
     con.query(getPlayers, (err, rows) => {
         console.log(rows)
@@ -183,6 +183,33 @@ app.get("/players", (req, res) => {
         }
     })
 });
+// Get one specific user
+app.get("/user/:userID", (req, res) => {
+    const playerID = req.params.userID
+    const getPlayer = "SELECT * FROM ListUserData WHERE playerID = " + playerID
+    con.query(getPlayer, (err, row) => {
+        if(err) console.log(err)
+        else {
+            res.json(row)
+        }
+    })
+})  
+//Add player
+app.post("/user", (req, res) => {
+    console.log("Testi")
+    const playerName = req.body.playerName
+    const addPlayer = "INSERT INTO ListUserData (userName) VALUES (?)"
+    con.query(addPlayer, playerName, (err) => {
+        if(err) {
+            console.log(err)
+            res.status(409).send("Cannot insert user")
+        }
+        else {
+            res.send("Successfully inserted new user")
+        }
+    })
+})
+
 // Delete a user
 app.delete("/user/:playerID", (req, res) => {
     console.log("Test")

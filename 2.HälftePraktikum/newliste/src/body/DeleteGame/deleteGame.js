@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Grid, Table, Col } from "react-bootstrap";
 
 class DeleteGame extends Component {
     constructor(){
@@ -38,9 +39,12 @@ class DeleteGame extends Component {
     }
     render() {
         return (    
-            <React.Fragment>
+            <Grid>
+                <Col  className="col-xs-3 col-sm-3 col-md-3 col-lg-3 ">
+                </Col>
+                <Col  className="col-xs-3 col-sm-3 col-md-3 col-lg-3 ">
                 <form action="/games">
-                    <table>
+                    <Table>
                         <tbody>
                             <tr>
                                 <td>
@@ -61,9 +65,12 @@ class DeleteGame extends Component {
                                 </td>
                             </tr>
                         </tbody>
-                    </table>
+                    </Table>
                 </form>
-            </React.Fragment>
+                </Col>
+                <Col  className="col-xs-3 col-sm-3 col-md-3 col-lg-3 ">
+                </Col>
+            </Grid>
         );
     }
 }
